@@ -18,6 +18,28 @@ copies so they don't drift. A change that touches the protocol but not all the
 mirrors is exactly the kind of "forgotten consumer" this tool exists to catch —
 so run a skeptic audit on your own PR.
 
+**CI enforces this.** [`.github/workflows/sync-check.yml`](.github/workflows/sync-check.yml)
+runs [`scripts/check-sync.mjs`](scripts/check-sync.mjs) on every push and PR. It
+fails if any full mirror is missing one of the 8 checks, if a manifest doesn't
+parse, or if an internal/private reference leaks. Run it locally with
+`bun scripts/check-sync.mjs` before opening a PR. If you add a full-embed mirror,
+add it to the `FULL_MIRRORS` list in that script.
+
+## Design note: the auditor's edit posture
+
+The protocol is **read-only**, with exactly one permitted mutation — the check-4
+break-the-test probe, which must be reverted (`git status` clean). The adapters
+take two equivalent stances on enforcing that:
+
+- The **Claude Code** subagent (`agents/skeptic-auditor.md`) grants `Edit` but
+  its prompt scopes it strictly to the revertible probe.
+- The **OpenCode** subagent ships `permission.edit: deny`, so it runs check 4 by
+  reasoning rather than a physical break-and-revert (flip to `edit: ask` if you
+  want the literal probe).
+
+Both honor the same read-only contract; they differ only in whether enforcement
+is by prompt or by permission. Keep that contract intact in any new adapter.
+
 ## Adding a harness adapter
 
 1. Add `adapters/<harness>/` with the native artifact(s) and a short `README.md`

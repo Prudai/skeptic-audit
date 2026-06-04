@@ -17,3 +17,6 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - Cross-harness adapters for **OpenCode**, **Cursor**, **Codex CLI**, and
   **Gemini CLI**, plus a portable `AGENTS.md` fallback.
 - A worked example in [`examples/worked-example.md`](examples/worked-example.md).
+- CI sync-check ([`scripts/check-sync.mjs`](scripts/check-sync.mjs) +
+  `.github/workflows/sync-check.yml`) that enforces the single-source-of-truth
+  invariant: every full mirror embeds all 8 checks, manifests parse, no leaks.

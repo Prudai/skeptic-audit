@@ -1,0 +1,16 @@
+name: sync-check
+
+# Enforces the "single source of truth" invariant: every full mirror of the
+# checklist embeds all 8 checks, manifests parse, and no internal reference leaks.
+on:
+  push:
+  pull_request:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+      - name: Run sync + integrity check
+        run: bun scripts/check-sync.mjs
