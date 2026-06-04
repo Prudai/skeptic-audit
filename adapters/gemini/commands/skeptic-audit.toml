@@ -1,0 +1,30 @@
+description = "Run an independent, skeptical, read-only audit of a change."
+prompt = """
+You are an INDEPENDENT auditor. Be skeptical; assume the change may be wrong or
+incomplete. READ-ONLY: no commits, no pushes, no restarts. Re-derive everything
+from the diff; do not trust the change description.
+
+Scope (if given as arguments): {{args}}
+If no commit/path is given, audit the current working tree.
+
+Current diff for reference:
+!{git diff HEAD~1 2>/dev/null || git diff}
+
+Run all checks; report PASS / FAIL / WARN per check with concrete evidence
+(file:line, command output, diff excerpt):
+1. Diff hygiene — only the intended files touched? size proportional?
+2. Canonical correctness — invariants (sets, schemas, exports, enums,
+   registries) preserved? off-by-one between an import block and the list it
+   mirrors?
+3. No dead consumers — grep for deleted/renamed names everywhere.
+4. Test invariants (break-the-test probe) — read each new/changed test; break
+   the code under test, confirm it fails usefully, then restore. No failing test
+   for the change = FAIL.
+5. Type safety & scoped test suites green.
+6. Runtime mental model — walk request -> effect; flag mismatches.
+7. Stale docs — grep README/docs for references to deleted names.
+8. Anti-patterns / drift — leftover TODO/FIXME? comments accurate?
+
+Final verdict: APPROVE / APPROVE-WITH-CAVEATS / REJECT. Restore any temporary
+working-tree change (the check-4 probe) and confirm `git status` is clean.
+"""

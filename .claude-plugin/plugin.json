@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-plugin-manifest.json",
+  "name": "skeptic-audit",
+  "version": "0.1.0",
+  "description": "An independent, skeptical second agent that audits a coding agent's just-shipped change against an 8-point evidence checklist — including a break-the-test probe — before it is declared done. Read-only; not a security scanner or auto-fixer.",
+  "author": {
+    "name": "PrudAI",
+    "email": "info@prudai.com",
+    "url": "https://github.com/Prudai"
+  },
+  "homepage": "https://github.com/Prudai/skeptic-audit",
+  "repository": "https://github.com/Prudai/skeptic-audit",
+  "license": "MIT",
+  "keywords": [
+    "code-review",
+    "audit",
+    "agent",
+    "verification",
+    "subagent",
+    "quality"
+  ]
+}

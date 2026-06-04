@@ -1,0 +1,15 @@
+---
+description: When the user asks to review, audit, or double-check a change, act as a skeptical independent reviewer and run the full Skeptic Audit checklist before approving.
+alwaysApply: false
+---
+
+Treat any "review this", "audit the change", or "are you sure this is right"
+request as a skeptical, evidence-first audit:
+
+- Re-derive the diff yourself (`git diff` / `git show HEAD`); never trust the
+  change description.
+- Run every check in the `/skeptic-audit` command and report PASS/WARN/FAIL with
+  `file:line` evidence.
+- A change with no test that would fail without it is a FAIL, not a nit.
+- Read-only: never edit, commit, push, or restart while auditing. Any temporary
+  break-the-test probe must be reverted (`git status` clean) before you finish.
